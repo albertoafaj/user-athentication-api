@@ -24,3 +24,5 @@ Alterar o script do package.json
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
   },
 ```
+
+npm install --save http-status-codes
