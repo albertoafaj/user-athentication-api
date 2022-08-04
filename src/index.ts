@@ -1,19 +1,20 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
+import statusRoute from "./routes/status.route";
 import userRoute from "./routes/users.route";
 
 const app = express();
 
-app.use(userRoute)
+// Configuração da aplicação
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/status', (req: Request, res: Response, next: NextFunction) => {
-    res
-        .status(200)
-        .send({
-            json: 'Alterou'
-        })
-})
 
-// Para subir o servidor
+// Configuração das Rotas
+app.use(statusRoute);
+app.use(userRoute);
+
+
+// Inicialização do servidor
 
 app.listen(3000, () => {
     console.log('Aplicação excultando na porta 3000')
