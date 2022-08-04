@@ -10,5 +10,12 @@ npm install --save-dev typescript
 npm install --save-dev @types/node
 
 * Lib para gerenciar rotas http  
-$ npm install --save express
+npm install --save express
 npm install --save @types/express
+
+* Lib para automatizar identificação de alterações no código do servidor por parte do servidor
+npm install --save-dev ts-node-dev
+
+"scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
+  },

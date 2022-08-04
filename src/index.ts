@@ -6,7 +6,7 @@ app.get('/status', (req: Request, res: Response, next: NextFunction) => {
     res
         .status(200)
         .send({
-            json: 'json'
+            json: 'Alterou'
         })
 })
 
