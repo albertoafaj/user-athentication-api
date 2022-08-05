@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import userRepository from "../repositories/user.repository";
 
@@ -10,16 +10,18 @@ userRoute.get('/users', async (req: Request, res: Response, next: NextFunction) 
 
 })
 
-userRoute.get('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.get('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
     const uuid = req.params.uuid;
-    res.status(StatusCodes.OK).send({ uuid });
+    const user = await userRepository.findById(uuid);
+    res.status(StatusCodes.OK).send({ user });
 
 })
 
-userRoute.post('/users', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.post('/users', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
     const newUser = req.body;
-    res.status(StatusCodes.CREATED).send(newUser)
-    
+    const uuid = await userRepository.create(newUser)
+    res.status(StatusCodes.CREATED).send(uuid)
+
 })
 
 userRoute.put('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
@@ -27,7 +29,7 @@ userRoute.put('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, ne
     const modifieldUser = req.body;
     modifieldUser.uuid = uuid;
     res.status(StatusCodes.OK).send({ uuid })
-    
+
 })
 
 userRoute.delete('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
