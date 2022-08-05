@@ -24,11 +24,12 @@ userRoute.post('/users', async (req: Request<{ uuid: string }>, res: Response, n
 
 })
 
-userRoute.put('/users/:uuid', (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
+userRoute.put('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
     const uuid = req.params.uuid;
     const modifieldUser = req.body;
     modifieldUser.uuid = uuid;
-    res.status(StatusCodes.OK).send({ uuid })
+    await userRepository.update(modifieldUser)
+    res.status(StatusCodes.OK).send()
 
 })
 
