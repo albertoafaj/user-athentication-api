@@ -26,3 +26,6 @@ Alterar o script do package.json
 ```
 
 npm install --save http-status-codes
+
+
+npm install --save pg
