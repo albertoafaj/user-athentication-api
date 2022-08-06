@@ -28,4 +28,8 @@ Alterar o script do package.json
 npm install --save http-status-codes
 
 
-npm install --save pg
+npm install --save pg,
+
+npm install --saveS jsonwebtoken
+
+npm install --save-dev @types/jsonwebtoken
