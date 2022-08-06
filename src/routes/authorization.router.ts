@@ -1,7 +1,8 @@
-import { NextFunction, Router, Request, Response } from "express";
+import { NextFunction, Router, Request, Response, response } from "express";
 import { StatusCodes } from "http-status-codes";
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import basicAuthenticationMiddleware from "../middlewares/basic-authentication.middleware";
+import jwtAuthenticationMiddleware from "../middlewares/jwt-authentication.middleware";
 import ForbiddenError from "../models/erros/forbidden.error.model";
 
 
@@ -18,7 +19,7 @@ authorizationRoute.post('/token', basicAuthenticationMiddleware, async (req: Req
         }
 
         const jwtPayload = { username: user.username };
-        const jwtOptions = { subject: user?.uuid };
+        const jwtOptions: SignOptions =  { subject: user?.uuid , expiresIn: 600 };
         const secretKey = 'my_secret_key';
 
         const JWT = jwt.sign(jwtPayload, secretKey, jwtOptions);
@@ -27,6 +28,10 @@ authorizationRoute.post('/token', basicAuthenticationMiddleware, async (req: Req
         next(error);
 
     }
-})
+});
+
+authorizationRoute.post('/token/validate', jwtAuthenticationMiddleware, (req: Request, res: Response, next: NextFunction) => {
+    res.sendStatus(StatusCodes.OK);
+});
 
 export default authorizationRoute;
